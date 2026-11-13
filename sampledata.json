@@ -1,0 +1,82 @@
+{
+  "stores": [
+    { "id": "KOTH", "name": "Kothrud" },
+    { "id": "BANR", "name": "Baner" },
+    { "id": "HADP", "name": "Hadapsar" }
+  ],
+  "products": [
+    { "sku": "DAI-BUT-500", "name": "Butter 500 g", "category": "Dairy", "unit": "pack" },
+    { "sku": "GRN-BAS-5K", "name": "Basmati rice 5 kg", "category": "Grains", "unit": "bag" },
+    { "sku": "SNK-PAR-100", "name": "Parle-G Biscuits 100 g", "category": "Snacks", "unit": "pack" },
+    { "sku": "GRO-SAL-1K", "name": "Tata Salt 1 kg", "category": "Staples", "unit": "pack" },
+    { "sku": "HOM-SUR-500", "name": "Surf Excel 500 g", "category": "Household", "unit": "pack" },
+    { "sku": "BEV-TEA-250", "name": "Red Label Tea 250 g", "category": "Beverages", "unit": "pack" },
+    { "sku": "OIL-SUN-1L", "name": "Sunflower Oil 1 L", "category": "Oils", "unit": "pouch" },
+    { "sku": "GRN-TOOR-1K", "name": "Toor Dal 1 kg", "category": "Grains", "unit": "pack" }
+  ],
+  "stock": {
+    "KOTH": {
+      "DAI-BUT-500": 2,
+      "GRN-BAS-5K": 14,
+      "SNK-PAR-100": 35,
+      "GRO-SAL-1K": 18,
+      "HOM-SUR-500": 0,
+      "BEV-TEA-250": 12,
+      "OIL-SUN-1L": 7,
+      "GRN-TOOR-1K": 20
+    },
+    "BANR": {
+      "DAI-BUT-500": 40,
+      "GRN-BAS-5K": 3,
+      "SNK-PAR-100": 10,
+      "GRO-SAL-1K": 25,
+      "HOM-SUR-500": 15,
+      "BEV-TEA-250": 4,
+      "OIL-SUN-1L": 22,
+      "GRN-TOOR-1K": 16
+    },
+    "HADP": {
+      "DAI-BUT-500": 12,
+      "GRN-BAS-5K": 9,
+      "SNK-PAR-100": 50,
+      "GRO-SAL-1K": 6,
+      "HOM-SUR-500": 9,
+      "BEV-TEA-250": 19,
+      "OIL-SUN-1L": 14,
+      "GRN-TOOR-1K": 3
+    }
+  },
+  "levels": {
+    "KOTH": {
+      "DAI-BUT-500": 10,
+      "GRN-BAS-5K": 5,
+      "SNK-PAR-100": 15,
+      "GRO-SAL-1K": 10,
+      "HOM-SUR-500": 8,
+      "BEV-TEA-250": 10,
+      "OIL-SUN-1L": 10,
+      "GRN-TOOR-1K": 10
+    },
+    "BANR": {
+      "DAI-BUT-500": 10,
+      "GRN-BAS-5K": 5,
+      "SNK-PAR-100": 15,
+      "GRO-SAL-1K": 10,
+      "HOM-SUR-500": 8,
+      "BEV-TEA-250": 10,
+      "OIL-SUN-1L": 10,
+      "GRN-TOOR-1K": 10
+    },
+    "HADP": {
+      "DAI-BUT-500": 8,
+      "GRN-BAS-5K": 5,
+      "SNK-PAR-100": 15,
+      "GRO-SAL-1K": 10,
+      "HOM-SUR-500": 8,
+      "BEV-TEA-250": 10,
+      "OIL-SUN-1L": 10,
+      "GRN-TOOR-1K": 10
+    }
+  },
+  "transfers": []
+}
