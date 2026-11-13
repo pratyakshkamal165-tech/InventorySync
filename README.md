@@ -4,7 +4,7 @@ A multi-store retail inventory sync and low-stock alert web dashboard built as a
 
 Overview
 
-Small retail chains often track stock separately across branches, leading to empty shelves in one store while another store has surplus inventory[cite: 4]. InventorySync is a browser-based dashboard designed for Store Managers and Inventory Buyers across three Pune branches (Kothrud, Baner, and Hadapsar) to view live stock levels, prevent overselling at checkout, and manage inter-store stock transfers in under 30 seconds.
+Small retail chains often track stock separately across branches, leading to empty shelves in one store while another store has surplus inventory. InventorySync is a browser-based dashboard designed for Store Managers and Inventory Buyers across three Pune branches (Kothrud, Baner, and Hadapsar) to view live stock levels, prevent overselling at checkout, and manage inter-store stock transfers in under 30 seconds.
 
 Planned Features & User Flows
 
