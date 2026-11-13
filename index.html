@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InventorySync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Navbar with Per-Tab Role & Store Switcher -->
+  <nav class="navbar navbar-dark bg-dark px-3">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span class="navbar-brand mb-0 h1">InventorySync</span>
+
+      <div class="d-flex gap-2">
+        <select id="roleSelect" class="form-select form-select-sm" aria-label="Select Role">
+          <option value="manager">Store Manager</option>
+          <option value="buyer">Inventory Buyer</option>
+        </select>
+
+        <select id="storeSelect" class="form-select form-select-sm" aria-label="Select Store">
+          <option value="KOTH">Kothrud</option>
+          <option value="BANR">Baner</option>
+          <option value="HADP">Hadapsar</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Screen Navigation Tabs (S1 - S6) -->
+  <div class="bg-white border-bottom mb-3">
+    <div class="container py-2">
+      <ul class="nav nav-pills flex-wrap gap-1" id="screenTabs">
+        <li class="nav-item"><button class="nav-link active" data-screen="s1">Dashboard</button></li>
+        <li class="nav-item"><button class="nav-link" data-screen="s2">Store Stock</button></li>
+        <li class="nav-item" id="tabCheckout"><button class="nav-link" data-screen="s3">Checkout</button></li>
+        <li class="nav-item"><button class="nav-link" data-screen="s4">Transfers</button></li>
+        <li class="nav-item" id="tabProducts" style="display:none;"><button class="nav-link" data-screen="s5">Products & Levels</button></li>
+        <li class="nav-item"><button class="nav-link" data-screen="s6">Activity Log</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container mb-5">
+
+    <!-- Status / Toast Banner -->
+    <div id="toastBox" role="status" class="mb-3"></div>
+
+    <!-- ================= S1: DASHBOARD ================= -->
+    <section id="s1" class="screen-section">
+      <div class="row g-2 mb-4 text-center">
+        <div class="col-6 col-md-3">
+          <div class="card p-3">
+            <small class="text-muted">Low-Stock Items</small>
+            <h3 id="kpiLow" class="mb-0 text-warning">0</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card p-3">
+            <small class="text-muted">Out-of-Stock</small>
+            <h3 id="kpiOut" class="mb-0 text-danger">0</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card p-3">
+            <small class="text-muted">Pending Transfers</small>
+            <h3 id="kpiTransfers" class="mb-0">0</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="card p-3">
+            <small class="text-muted">Sales Today</small>
+            <h3 id="kpiSales" class="mb-0 text-success">0</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- Low Stock Alerts List -->
+        <div class="col-lg-5">
+          <div class="card p-3 h-100">
+            <h5>Low & Out-of-Stock Alerts</h5>
+            <div id="alertList" class="mt-2"></div>
+          </div>
+        </div>
+
+        <!-- Product x Store Stock Matrix -->
+        <div class="col-lg-7">
+          <div class="card p-3 h-100">
+            <h5>All Stores Stock Matrix</h5>
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered table-sm align-middle mb-0">
+                <caption class="visually-hidden">Stock across Kothrud, Baner, and Hadapsar</caption>
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col" class="text-end">Kothrud</th>
+                    <th scope="col" class="text-end">Baner</th>
+                    <th scope="col" class="text-end">Hadapsar</th>
+                  </tr>
+                </thead>
+                <tbody id="matrixBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S2: STORE STOCK ================= -->
+    <section id="s2" class="screen-section" style="display:none;">
+      <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h5 class="mb-0">Store Stock — <span id="s2StoreName">Kothrud</span></h5>
+          <button id="exportCsvBtn" class="btn btn-sm btn-outline-primary">Export CSV</button>
+        </div>
+
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <input type="text" id="s2Search" class="form-control" placeholder="Search product or SKU...">
+          </div>
+          <div class="col-md-6">
+            <select id="s2StatusFilter" class="form-select">
+              <option value="All">All Statuses</option>
+              <option value="Low">Low & Out Only</option>
+              <option value="Out">Out Only</option>
+              <option value="OK">OK Only</option>
+              <option value="Not set">Not Set</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Category</th>
+                <th scope="col" class="text-end">Qty</th>
+                <th scope="col" class="text-end">Reorder</th>
+                <th scope="col">Status</th>
+                <th scope="col" id="s2ActionHeader">Quick Actions</th>
+              </tr>
+            </thead>
+            <tbody id="s2TableBody"></tbody>
+          </table>
+        </div>
+        <p id="s2Empty" class="text-muted text-center mt-2 mb-0"></p>
+      </div>
+    </section>
+
+    <!-- ================= S3: CHECKOUT (STORE MANAGER) ================= -->
+    <section id="s3" class="screen-section" style="display:none;">
+      <div class="row g-3">
+        <div class="col-lg-7">
+          <div class="card p-3">
+            <h5>Checkout — <span id="s3StoreName">Kothrud</span></h5>
+            <input type="text" id="s3Search" class="form-control my-2" placeholder="Search product to add to cart...">
+            <div id="s3ProductList" class="list-group mt-2"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card p-3">
+            <h5>Current Cart</h5>
+            <div id="cartItems" class="my-2"></div>
+            <button id="completeSaleBtn" class="btn btn-primary w-100 mt-2">Complete Sale</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S4: TRANSFERS ================= -->
+    <section id="s4" class="screen-section" style="display:none;">
+      <div class="row g-3 justify-content-center">
+        <!-- Transfer Request Form (Manager Only) -->
+        <div class="col-lg-4" id="transferFormCard">
+          <div class="card p-3">
+            <h5 class="text-center">Request Stock Transfer</h5>
+            <p class="text-muted small text-center">Destination: <b id="s4ToStore">Kothrud</b></p>
+
+            <div class="mb-2">
+              <label for="trProductSelect" class="form-label">Product</label>
+              <select id="trProductSelect" class="form-select"></select>
+            </div>
+
+            <div class="mb-2">
+              <label for="trFromSelect" class="form-label">Request From Store</label>
+              <select id="trFromSelect" class="form-select"></select>
+            </div>
+
+            <div class="mb-3">
+              <label for="trQtyInput" class="form-label">Quantity</label>
+              <input type="number" id="trQtyInput" class="form-control" min="1" placeholder="e.g. 20">
+            </div>
+
+            <button id="sendTransferBtn" class="btn btn-primary w-100">Send Request</button>
+          </div>
+        </div>
+
+        <!-- Transfer List -->
+        <div class="col-lg-8">
+          <div class="card p-3">
+            <h5>Transfer Requests</h5>
+            <div id="transferList" class="mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S5: PRODUCTS & LEVELS (BUYER ONLY) ================= -->
+    <section id="s5" class="screen-section" style="display:none;">
+      <div class="row g-3">
+        <!-- Add New Product Form -->
+        <div class="col-lg-4">
+          <div class="card p-3">
+            <h5>Add New Product</h5>
+            <div class="mb-2">
+              <label for="newSku" class="form-label">SKU Code</label>
+              <input type="text" id="newSku" class="form-control" placeholder="e.g. OIL-SUN-1L">
+            </div>
+            <div class="mb-2">
+              <label for="newName" class="form-label">Product Name</label>
+              <input type="text" id="newName" class="form-control" placeholder="e.g. Sunflower Oil 1 L">
+            </div>
+            <div class="mb-2">
+              <label for="newCategory" class="form-label">Category</label>
+              <input type="text" id="newCategory" class="form-control" placeholder="e.g. Oils">
+            </div>
+            <div class="mb-2">
+              <label for="newUnit" class="form-label">Unit</label>
+              <input type="text" id="newUnit" class="form-control" placeholder="e.g. pouch">
+            </div>
+            <div class="mb-3">
+              <label for="newDefaultLevel" class="form-label">Default Reorder Level (All Stores)</label>
+              <input type="number" id="newDefaultLevel" class="form-control" min="0" value="10">
+            </div>
+            <button id="addProductBtn" class="btn btn-primary w-100">Add Product</button>
+          </div>
+        </div>
+
+        <!-- Edit Reorder Levels Table -->
+        <div class="col-lg-8">
+          <div class="card p-3">
+            <h5>Reorder Levels per Store</h5>
+            <div class="table-responsive mt-2">
+              <table class="table table-bordered align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Product</th>
+                    <th>Kothrud Level</th>
+                    <th>Baner Level</th>
+                    <th>Hadapsar Level</th>
+                    <th>Save</th>
+                  </tr>
+                </thead>
+                <tbody id="s5LevelsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= S6: ACTIVITY LOG ================= -->
+    <section id="s6" class="screen-section" style="display:none;">
+      <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h5 class="mb-0">Activity Log (Stock Movements)</h5>
+          <select id="s6StoreFilter" class="form-select w-auto">
+            <option value="All">All Stores</option>
+            <option value="KOTH">Kothrud</option>
+            <option value="BANR">Baner</option>
+            <option value="HADP">Hadapsar</option>
+          </select>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-sm table-bordered mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Time</th>
+                <th>Store</th>
+                <th>Product</th>
+                <th>Type</th>
+                <th class="text-end">Change</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody id="s6LogBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Centered Reset Demo Data Button -->
+    <div class="text-center mt-4">
+      <button id="resetDemoBtn" class="btn btn-sm btn-outline-secondary">Reset Sample Data</button>
+    </div>
+
+  </main>
+
+  <script src="store.js"></script>
+  <script src="alerts.js"></script>
+  <script src="inventory.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
