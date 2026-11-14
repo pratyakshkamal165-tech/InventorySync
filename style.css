@@ -19,13 +19,11 @@ body {
   color: #1f2937;
 }
 
-/* Tabular numbers for right-aligned stock columns */
 .num-col {
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
-/* PRD Accessible Status Badges */
 .badge-ok {
   background-color: #f0fdf4;
   color: #15803d;

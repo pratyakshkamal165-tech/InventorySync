@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- Top Navbar with Per-Tab Role & Store Switcher -->
+  <!-- Top Navbar -->
   <nav class="navbar navbar-dark bg-dark px-3">
     <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
       <span class="navbar-brand mb-0 h1">InventorySync</span>
@@ -21,15 +21,15 @@
         </select>
 
         <select id="storeSelect" class="form-select form-select-sm" aria-label="Select Store">
-          <option value="KOTH">Kothrud</option>
-          <option value="BANR">Baner</option>
-          <option value="HADP">Hadapsar</option>
+          <option value="Kothrud">Kothrud</option>
+          <option value="Baner">Baner</option>
+          <option value="Hadapsar">Hadapsar</option>
         </select>
       </div>
     </div>
   </nav>
 
-  <!-- Screen Navigation Tabs (S1 - S6) -->
+  <!-- Screen Navigation Tabs -->
   <div class="bg-white border-bottom mb-3">
     <div class="container py-2">
       <ul class="nav nav-pills flex-wrap gap-1" id="screenTabs">
@@ -45,8 +45,8 @@
 
   <main class="container mb-5">
 
-    <!-- Status / Toast Banner -->
-    <div id="toastBox" role="status" class="mb-3"></div>
+    <!-- Status Message Box -->
+    <div id="msgBox" role="status" class="mb-3"></div>
 
     <!-- ================= S1: DASHBOARD ================= -->
     <section id="s1" class="screen-section">
@@ -54,25 +54,25 @@
         <div class="col-6 col-md-3">
           <div class="card p-3">
             <small class="text-muted">Low-Stock Items</small>
-            <h3 id="kpiLow" class="mb-0 text-warning">0</h3>
+            <h3 class="mb-0 text-warning">4</h3>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="card p-3">
             <small class="text-muted">Out-of-Stock</small>
-            <h3 id="kpiOut" class="mb-0 text-danger">0</h3>
+            <h3 class="mb-0 text-danger">1</h3>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="card p-3">
             <small class="text-muted">Pending Transfers</small>
-            <h3 id="kpiTransfers" class="mb-0">0</h3>
+            <h3 class="mb-0">1</h3>
           </div>
         </div>
         <div class="col-6 col-md-3">
           <div class="card p-3">
             <small class="text-muted">Sales Today</small>
-            <h3 id="kpiSales" class="mb-0 text-success">0</h3>
+            <h3 class="mb-0 text-success">3</h3>
           </div>
         </div>
       </div>
@@ -82,17 +82,33 @@
         <div class="col-lg-5">
           <div class="card p-3 h-100">
             <h5>Low & Out-of-Stock Alerts</h5>
-            <div id="alertList" class="mt-2"></div>
+            <ul class="list-group mt-2">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>Butter 500 g</strong> (Kothrud): 2 left</span>
+                <span class="badge badge-low">Low</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>Surf Excel 500 g</strong> (Kothrud): 0 left</span>
+                <span class="badge badge-out">Out</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>Basmati rice 5 kg</strong> (Baner): 3 left</span>
+                <span class="badge badge-low">Low</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>Red Label Tea 250 g</strong> (Baner): 4 left</span>
+                <span class="badge badge-low">Low</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <!-- Product x Store Stock Matrix -->
+        <!-- Product x Store Matrix -->
         <div class="col-lg-7">
           <div class="card p-3 h-100">
             <h5>All Stores Stock Matrix</h5>
             <div class="table-responsive mt-2">
               <table class="table table-bordered table-sm align-middle mb-0">
-                <caption class="visually-hidden">Stock across Kothrud, Baner, and Hadapsar</caption>
                 <thead class="table-light">
                   <tr>
                     <th scope="col">Product</th>
@@ -101,7 +117,38 @@
                     <th scope="col" class="text-end">Hadapsar</th>
                   </tr>
                 </thead>
-                <tbody id="matrixBody"></tbody>
+                <tbody>
+                  <tr>
+                    <td>Butter 500 g</td>
+                    <td class="num-col table-warning">2</td>
+                    <td class="num-col">40</td>
+                    <td class="num-col">12</td>
+                  </tr>
+                  <tr>
+                    <td>Basmati rice 5 kg</td>
+                    <td class="num-col">14</td>
+                    <td class="num-col table-warning">3</td>
+                    <td class="num-col">9</td>
+                  </tr>
+                  <tr>
+                    <td>Parle-G Biscuits 100 g</td>
+                    <td class="num-col">35</td>
+                    <td class="num-col table-warning">10</td>
+                    <td class="num-col">50</td>
+                  </tr>
+                  <tr>
+                    <td>Tata Salt 1 kg</td>
+                    <td class="num-col">18</td>
+                    <td class="num-col">25</td>
+                    <td class="num-col table-warning">6</td>
+                  </tr>
+                  <tr>
+                    <td>Surf Excel 500 g</td>
+                    <td class="num-col table-danger">0</td>
+                    <td class="num-col">15</td>
+                    <td class="num-col">9</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -112,24 +159,9 @@
     <!-- ================= S2: STORE STOCK ================= -->
     <section id="s2" class="screen-section" style="display:none;">
       <div class="card p-3">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-          <h5 class="mb-0">Store Stock — <span id="s2StoreName">Kothrud</span></h5>
-          <button id="exportCsvBtn" class="btn btn-sm btn-outline-primary">Export CSV</button>
-        </div>
-
-        <div class="row g-2 mb-3">
-          <div class="col-md-6">
-            <input type="text" id="s2Search" class="form-control" placeholder="Search product or SKU...">
-          </div>
-          <div class="col-md-6">
-            <select id="s2StatusFilter" class="form-select">
-              <option value="All">All Statuses</option>
-              <option value="Low">Low & Out Only</option>
-              <option value="Out">Out Only</option>
-              <option value="OK">OK Only</option>
-              <option value="Not set">Not Set</option>
-            </select>
-          </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Store Stock — <span class="active-store-label">Kothrud</span></h5>
+          <button class="btn btn-sm btn-outline-primary wip-btn">Export CSV</button>
         </div>
 
         <div class="table-responsive">
@@ -141,32 +173,81 @@
                 <th scope="col" class="text-end">Qty</th>
                 <th scope="col" class="text-end">Reorder</th>
                 <th scope="col">Status</th>
-                <th scope="col" id="s2ActionHeader">Quick Actions</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
-            <tbody id="s2TableBody"></tbody>
+            <tbody>
+              <tr>
+                <td>Butter 500 g</td>
+                <td>Dairy</td>
+                <td class="num-col">2</td>
+                <td class="num-col">10</td>
+                <td><span class="badge badge-low">Low</span></td>
+                <td><button class="btn btn-sm btn-outline-primary wip-btn">Request Transfer</button></td>
+              </tr>
+              <tr>
+                <td>Basmati rice 5 kg</td>
+                <td>Grains</td>
+                <td class="num-col">14</td>
+                <td class="num-col">5</td>
+                <td><span class="badge badge-ok">OK</span></td>
+                <td><button class="btn btn-sm btn-outline-success wip-btn">+ Receive</button></td>
+              </tr>
+              <tr>
+                <td>Surf Excel 500 g</td>
+                <td>Household</td>
+                <td class="num-col">0</td>
+                <td class="num-col">8</td>
+                <td><span class="badge badge-out">Out</span></td>
+                <td><button class="btn btn-sm btn-outline-primary wip-btn">Request Transfer</button></td>
+              </tr>
+              <tr>
+                <td>Sunflower Oil 1 L</td>
+                <td>Oils</td>
+                <td class="num-col">7</td>
+                <td class="num-col">-</td>
+                <td><span class="badge badge-notset">Not set</span></td>
+                <td><button class="btn btn-sm btn-outline-success wip-btn">+ Receive</button></td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <p id="s2Empty" class="text-muted text-center mt-2 mb-0"></p>
       </div>
     </section>
 
-    <!-- ================= S3: CHECKOUT (STORE MANAGER) ================= -->
+    <!-- ================= S3: CHECKOUT ================= -->
     <section id="s3" class="screen-section" style="display:none;">
       <div class="row g-3">
         <div class="col-lg-7">
           <div class="card p-3">
-            <h5>Checkout — <span id="s3StoreName">Kothrud</span></h5>
-            <input type="text" id="s3Search" class="form-control my-2" placeholder="Search product to add to cart...">
-            <div id="s3ProductList" class="list-group mt-2"></div>
+            <h5>Checkout — <span class="active-store-label">Kothrud</span></h5>
+            <div class="list-group mt-2">
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div><strong>Butter 500 g</strong><br><small class="text-muted">2 left in stock</small></div>
+                <button class="btn btn-sm btn-primary touch-btn wip-btn">Add</button>
+              </div>
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div><strong>Basmati rice 5 kg</strong><br><small class="text-muted">14 left in stock</small></div>
+                <button class="btn btn-sm btn-primary touch-btn wip-btn">Add</button>
+              </div>
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div><strong>Parle-G Biscuits 100 g</strong><br><small class="text-muted">35 left in stock</small></div>
+                <button class="btn btn-sm btn-primary touch-btn wip-btn">Add</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="col-lg-5">
           <div class="card p-3">
             <h5>Current Cart</h5>
-            <div id="cartItems" class="my-2"></div>
-            <button id="completeSaleBtn" class="btn btn-primary w-100 mt-2">Complete Sale</button>
+            <ul class="list-group my-2">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>Butter 500 g</span>
+                <strong>× 1</strong>
+              </li>
+            </ul>
+            <button class="btn btn-primary w-100 mt-2 wip-btn">Complete Sale</button>
           </div>
         </div>
       </div>
@@ -175,90 +256,103 @@
     <!-- ================= S4: TRANSFERS ================= -->
     <section id="s4" class="screen-section" style="display:none;">
       <div class="row g-3 justify-content-center">
-        <!-- Transfer Request Form (Manager Only) -->
-        <div class="col-lg-4" id="transferFormCard">
+        <div class="col-lg-4">
           <div class="card p-3">
             <h5 class="text-center">Request Stock Transfer</h5>
-            <p class="text-muted small text-center">Destination: <b id="s4ToStore">Kothrud</b></p>
+            <p class="text-muted small text-center">Destination: <b class="active-store-label">Kothrud</b></p>
 
             <div class="mb-2">
-              <label for="trProductSelect" class="form-label">Product</label>
-              <select id="trProductSelect" class="form-select"></select>
+              <label class="form-label">Product</label>
+              <select class="form-select">
+                <option>Butter 500 g</option>
+                <option>Surf Excel 500 g</option>
+                <option>Basmati rice 5 kg</option>
+              </select>
             </div>
 
             <div class="mb-2">
-              <label for="trFromSelect" class="form-label">Request From Store</label>
-              <select id="trFromSelect" class="form-select"></select>
+              <label class="form-label">Request From Store</label>
+              <select class="form-select">
+                <option>Baner (40 in stock)</option>
+                <option>Hadapsar (12 in stock)</option>
+              </select>
             </div>
 
             <div class="mb-3">
-              <label for="trQtyInput" class="form-label">Quantity</label>
-              <input type="number" id="trQtyInput" class="form-control" min="1" placeholder="e.g. 20">
+              <label class="form-label">Quantity</label>
+              <input type="number" class="form-control" value="20">
             </div>
 
-            <button id="sendTransferBtn" class="btn btn-primary w-100">Send Request</button>
+            <button class="btn btn-primary w-100 wip-btn">Send Request</button>
           </div>
         </div>
 
-        <!-- Transfer List -->
         <div class="col-lg-8">
           <div class="card p-3">
             <h5>Transfer Requests</h5>
-            <div id="transferList" class="mt-2"></div>
+            <ul class="list-group mt-2">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>20 × Butter 500 g</strong><br>
+                  <small>Baner → Kothrud</small>
+                </div>
+                <span class="badge bg-warning text-dark">Pending</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= S5: PRODUCTS & LEVELS (BUYER ONLY) ================= -->
+    <!-- ================= S5: PRODUCTS & LEVELS (BUYER) ================= -->
     <section id="s5" class="screen-section" style="display:none;">
       <div class="row g-3">
-        <!-- Add New Product Form -->
         <div class="col-lg-4">
           <div class="card p-3">
             <h5>Add New Product</h5>
             <div class="mb-2">
-              <label for="newSku" class="form-label">SKU Code</label>
-              <input type="text" id="newSku" class="form-control" placeholder="e.g. OIL-SUN-1L">
+              <label class="form-label">SKU Code</label>
+              <input type="text" class="form-control" placeholder="e.g. OIL-SUN-1L">
             </div>
             <div class="mb-2">
-              <label for="newName" class="form-label">Product Name</label>
-              <input type="text" id="newName" class="form-control" placeholder="e.g. Sunflower Oil 1 L">
-            </div>
-            <div class="mb-2">
-              <label for="newCategory" class="form-label">Category</label>
-              <input type="text" id="newCategory" class="form-control" placeholder="e.g. Oils">
-            </div>
-            <div class="mb-2">
-              <label for="newUnit" class="form-label">Unit</label>
-              <input type="text" id="newUnit" class="form-control" placeholder="e.g. pouch">
+              <label class="form-label">Product Name</label>
+              <input type="text" class="form-control" placeholder="e.g. Sunflower Oil 1 L">
             </div>
             <div class="mb-3">
-              <label for="newDefaultLevel" class="form-label">Default Reorder Level (All Stores)</label>
-              <input type="number" id="newDefaultLevel" class="form-control" min="0" value="10">
+              <label class="form-label">Default Reorder Level</label>
+              <input type="number" class="form-control" value="10">
             </div>
-            <button id="addProductBtn" class="btn btn-primary w-100">Add Product</button>
+            <button class="btn btn-primary w-100 wip-btn">Add Product</button>
           </div>
         </div>
 
-        <!-- Edit Reorder Levels Table -->
         <div class="col-lg-8">
           <div class="card p-3">
             <h5>Reorder Levels per Store</h5>
-            <div class="table-responsive mt-2">
-              <table class="table table-bordered align-middle mb-0">
-                <thead class="table-light">
-                  <tr>
-                    <th>Product</th>
-                    <th>Kothrud Level</th>
-                    <th>Baner Level</th>
-                    <th>Hadapsar Level</th>
-                    <th>Save</th>
-                  </tr>
-                </thead>
-                <tbody id="s5LevelsBody"></tbody>
-              </table>
-            </div>
+            <table class="table table-bordered align-middle mt-2 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Product</th>
+                  <th>Kothrud</th>
+                  <th>Baner</th>
+                  <th>Hadapsar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Butter 500 g</td>
+                  <td>10</td>
+                  <td>10</td>
+                  <td>8</td>
+                </tr>
+                <tr>
+                  <td>Basmati rice 5 kg</td>
+                  <td>5</td>
+                  <td>5</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -267,17 +361,8 @@
     <!-- ================= S6: ACTIVITY LOG ================= -->
     <section id="s6" class="screen-section" style="display:none;">
       <div class="card p-3">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-          <h5 class="mb-0">Activity Log (Stock Movements)</h5>
-          <select id="s6StoreFilter" class="form-select w-auto">
-            <option value="All">All Stores</option>
-            <option value="KOTH">Kothrud</option>
-            <option value="BANR">Baner</option>
-            <option value="HADP">Hadapsar</option>
-          </select>
-        </div>
-
-        <div class="table-responsive">
+        <h5>Activity Log (Sample Movements)</h5>
+        <div class="table-responsive mt-2">
           <table class="table table-sm table-bordered mb-0">
             <thead class="table-light">
               <tr>
@@ -289,22 +374,31 @@
                 <th>Role</th>
               </tr>
             </thead>
-            <tbody id="s6LogBody"></tbody>
+            <tbody>
+              <tr>
+                <td>10:15 AM</td>
+                <td>Baner</td>
+                <td>Butter 500 g</td>
+                <td>sale</td>
+                <td class="num-col">-2</td>
+                <td>manager</td>
+              </tr>
+              <tr>
+                <td>09:00 AM</td>
+                <td>Kothrud</td>
+                <td>Butter 500 g</td>
+                <td>opening</td>
+                <td class="num-col">+2</td>
+                <td>system</td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
     </section>
 
-    <!-- Centered Reset Demo Data Button -->
-    <div class="text-center mt-4">
-      <button id="resetDemoBtn" class="btn btn-sm btn-outline-secondary">Reset Sample Data</button>
-    </div>
-
   </main>
 
-  <script src="store.js"></script>
-  <script src="alerts.js"></script>
-  <script src="inventory.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
